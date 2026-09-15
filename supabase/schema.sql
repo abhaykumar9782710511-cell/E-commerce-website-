@@ -18,6 +18,10 @@ alter table public.orders enable row level security;
 alter table public.order_items enable row level security;
 alter table public.coupons enable row level security;
 
+create or replace function public.handle_new_user() returns trigger language plpgsql security definer set search_path=public as $$ begin insert into public.profiles(id,full_name,phone) values(new.id,new.raw_user_meta_data->>'full_name',new.raw_user_meta_data->>'phone') on conflict(id) do update set full_name=excluded.full_name, phone=excluded.phone; return new; end; $$;
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created after insert on auth.users for each row execute function public.handle_new_user();
+
 create policy "public can view published products" on public.products for select using (published = true);
 create policy "public can view categories" on public.categories for select using (true);
 create policy "public can view variants" on public.product_variants for select using (exists(select 1 from public.products p where p.id=product_id and p.published=true));
