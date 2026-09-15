@@ -1,0 +1,1 @@
+export default function Orders(){return <main className="container section"><a href="/">← Store</a><h1>My Orders 📦</h1><div className="card"><div className="info"><h3>No orders yet</h3><p className="muted">Your confirmed orders and live delivery status will appear here.</p></div></div></main>}
