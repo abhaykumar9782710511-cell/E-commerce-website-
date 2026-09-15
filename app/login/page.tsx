@@ -1,0 +1,5 @@
+'use client'
+import { useState } from 'react'
+import { supabase } from '@/lib/supabase'
+
+export default function Login(){const [email,setEmail]=useState('');const [password,setPassword]=useState('');const [msg,setMsg]=useState('');async function submit(e:React.FormEvent){e.preventDefault();if(!supabase){setMsg('Supabase अभी configure नहीं हुआ है।');return}const {error}=await supabase.auth.signInWithPassword({email,password});setMsg(error?.message||'Login successful!')};return <main className="container section" style={{maxWidth:520}}><a href="/">← Store</a><h1>Welcome back 🙏</h1><p className="muted">Customer / admin login</p><form onSubmit={submit} className="card"><div className="info"><label>Email</label><br/><input className="search" value={email} onChange={e=>setEmail(e.target.value)} required type="email"/><br/><br/><label>Password</label><br/><input className="search" value={password} onChange={e=>setPassword(e.target.value)} required type="password"/><br/><br/><button className="btn">Login</button>{msg&&<p>{msg}</p>}</div></form></main>}
