@@ -1,0 +1,6 @@
+'use client'
+import {useEffect,useState} from 'react'
+import Link from 'next/link'
+import {useRouter} from 'next/navigation'
+import {supabase} from '@/lib/supabase'
+export default function Account(){const[user,setUser]=useState<any>(null);const[loading,setLoading]=useState(true);const router=useRouter();useEffect(()=>{supabase?.auth.getUser().then(({data})=>{setUser(data.user);setLoading(false)})},[]);async function logout(){await supabase?.auth.signOut();router.push('/')}if(loading)return <main className="container section"><div className="card info">Loading…</div></main>;if(!user)return <main className="container section"><div className="card info"><h1>Login required</h1><Link className="btn" href="/login">Login / Signup</Link></div></main>;return <main className="container section" style={{maxWidth:760}}><div className="sectionhead"><div><span className="pill">MY ACCOUNT</span><h1>Welcome 👋</h1><p className="muted">{user.email}</p></div><button className="btn secondary" onClick={logout}>Logout</button></div><div className="features"><div className="feature"><h2>📦 My Orders</h2><p>अपने orders और delivery status देखें।</p><Link className="btn" href="/account/orders">View Orders</Link></div><div className="feature"><h2>🛍️ Shopping</h2><p>कृष्ण जी की नई पोशाकें देखें।</p><Link className="btn" href="/products">Shop Now</Link></div></div></main>}
