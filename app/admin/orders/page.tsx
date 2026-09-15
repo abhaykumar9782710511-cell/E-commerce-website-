@@ -1,0 +1,1 @@
+export default function AdminOrders(){return <main className="container section"><a href="/admin">← Dashboard</a><h1>Orders</h1><div className="card"><div className="info"><h3>No live orders yet</h3><p className="muted">Once Supabase is connected, customer orders will appear here with address, payment status, items and fulfillment controls.</p></div></div></main>}
